@@ -14,7 +14,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 withDockerRegistry([credentialsId: '', url: '']) {
-                    sh 'docker tag Devcalculator akdev6298/mycalculator:latest'
+                    sh 'docker tag devcalculator akdev6298/mycalculator:latest'
                     sh 'docker push akdev6298/mycalculator:latest'
                 }
             }
