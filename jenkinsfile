@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Shahakshar/DevCalculator.git'
+                git branch: 'main', url: 'https://github.com/Shahakshar/DevCalculator.git'
             }
         }
         stage('Build Docker Image') {
