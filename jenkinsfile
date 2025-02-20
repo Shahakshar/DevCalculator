@@ -24,7 +24,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'credentialsId', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     // sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
                     sh 'sudo docker tag devcalculator $DOCKER_IMAGE'
-                    sh 'sudo docker imagse'
+                    sh 'sudo docker images'
                     sh 'sudo docker push $DOCKER_IMAGE'
                 }
             }
