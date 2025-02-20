@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'sudo -u jenkins docker build -t Devcalculator .'
+                sh 'jenkins docker build -t Devcalculator .'
             }
         }
         stage('Push to Docker Hub') {
