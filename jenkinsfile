@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_IMAGE = "akdev6298/mycalculator:latest"
+    }
     stages {
         stage('Clone Repository') {
             steps {
@@ -13,12 +16,12 @@ pipeline {
         }
         stage('Push to Docker Hub') {
             steps {
-                withDockerRegistry([credentialsId: '', url: '']) {
-                    sh 'sudo docker tag devcalculator akdev6298/mycalculator:latest'
-                    sh 'sudo docker push akdev6298/mycalculator:latest'
+                withCredentials([usernamePassword(credentialsId: 'credentialsId', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'sudo echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
+                    sh 'sudo docker tag devcalculator $DOCKER_IMAGE'
+                    sh 'sudo docker push $DOCKER_IMAGE'
                 }
             }
         }
     }
 }
-
