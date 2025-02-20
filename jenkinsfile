@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = "akdev6298/mycalculator:latest"
+        DOCKER_IMAGE = "akdev6298/mycalculator:v1"
     }
     stages {
         stage('Clone Repository') {
@@ -14,11 +14,17 @@ pipeline {
                 sh 'sudo docker build -t devcalculator .'
             }
         }
+        stage('Verify Docker image') {
+            steps {
+                sh 'sudo docker images'
+            }
+        }
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'credentialsId', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
+                    // sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
                     sh 'sudo docker tag devcalculator $DOCKER_IMAGE'
+                    sh 'sudo docker imagse'
                     sh 'sudo docker push $DOCKER_IMAGE'
                 }
             }
