@@ -35,10 +35,9 @@ pipeline {
                     string(credentialsId: 'ANSIBLE_SUDO_PASS', variable: 'ANSIBLE_BECOME_PASS'),
                     string(credentialsId: 'ANSIBLE_SUDO_PASS', variable: 'ANSIBLE_SSH_PASS')
                 ]) {
+                    // sh 'cd scientific-calculator'
                     sh '''
-                    ansible-playbook -i scientific-calculator
-/inventory.ini scientific-calculator
-/deploy.yml --extra-vars "ansible_ssh_pass=$ANSIBLE_SSH_PASS ansible_become_pass=$ANSIBLE_BECOME_PASS"
+                    ansible-playbook -i scientific-calculator/inventory.ini scientific-calculator/deploy.yml --extra-vars "ansible_ssh_pass=$ANSIBLE_SSH_PASS ansible_become_pass=$ANSIBLE_BECOME_PASS"
                     '''
                 }
             }
