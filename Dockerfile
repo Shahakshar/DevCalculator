@@ -1,4 +1,4 @@
 FROM ubuntu:latest
 COPY calculator.sh calculator.sh
 RUN chmod +x calculator.sh
-CMD ["/bin/bash", "-c", "./calculator.sh; exec bash"]
+CMD ["bash", "./calculator.sh"]
