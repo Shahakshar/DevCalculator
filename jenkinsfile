@@ -31,9 +31,10 @@ pipeline {
         }
 	stage('Deploy with Ansible') {
             steps {
-                script {
-                    // Run Ansible playbook using inventory.ini
-                    sh 'ansible-playbook -i inventory.ini deploy.yml'
+                withCredentials([string(credentialsId: 'ANSIBLE_SUDO_PASS', variable: 'ANSIBLE_BECOME_PASS')]) {
+                    sh '''
+                    ansible-playbook -i inventory.ini deploy.yml --extra-vars "ansible_become_pass=$ANSIBLE_BECOME_PASS"
+                    '''
                 }
             }
         }
