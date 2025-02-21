@@ -17,10 +17,6 @@ case $op in
 esac
 
 echo "Result: $result"
-echo "Do you want to perform another calculation? (yes/no)"
-read choice
-if [ "$choice" != "yes" ]; then
-    break
-fi
-
 echo "Exiting calculator..."
+
+sleep 3600
