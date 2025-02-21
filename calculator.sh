@@ -2,7 +2,7 @@
 echo "Simple Calculator"
 echo "Do you want to perform a calculation? (yes/no)"
 read choice
-if [ "$choice" != "no" ]; then
+if [ "$choice" != "yes" ]; then
     echo "Exiting calculator..."
     exit 0
 fi
