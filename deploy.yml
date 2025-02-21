@@ -14,7 +14,7 @@
         var: pull_result.stdout
 
     - name: Run the Docker container
-      shell: docker run -d --name devcalculator_container akdev6298/mycalculator:v1
+      shell: docker run -d --name devcalculator_container akdev6298/mycalculator:v1 /bin/bash
       register: run_result
       changed_when: "'Error' not in run_result.stdout"
 
