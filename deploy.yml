@@ -1,11 +1,8 @@
 - name: Deploy Calculator Container Using Docker CLI
   hosts: localhost
   become: true
+  gather_facts: no
   tasks:
-    - name: Check if the container exists (running or stopped)
-      shell: docker ps -a --format '{{ "{{.Names}}" }}' | grep -w mycalculator_container || true
-      register: container_check
-      changed_when: false
 
     - name: Stop and remove existing container if present
       shell: |
