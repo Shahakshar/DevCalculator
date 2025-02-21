@@ -3,17 +3,6 @@
   become: true
   gather_facts: no
   tasks:
-
-    - name: Stop and remove existing container if present
-      shell: |
-        docker stop mycalculator_container || true
-        docker rm -f mycalculator_container || true
-      when: container_check.stdout != ""
-
-    - name: Remove the existing Docker image
-      shell: docker rmi -f akdev6298/mycalculator:v1 || true
-      ignore_errors: yes  # Ignore errors if the image is not found
-
     - name: Pull the latest Docker image from Docker Hub
       shell: docker pull akdev6298/mycalculator:v1
       register: pull_result
