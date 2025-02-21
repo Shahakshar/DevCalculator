@@ -1,0 +1,37 @@
+- name: Deploy Calculator Container Using Docker CLI
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Check if the container exists (running or stopped)
+      shell: docker ps -a --format '{{ "{{.Names}}" }}' | grep -w mycalculator_container || true
+      register: container_check
+      changed_when: false
+
+    - name: Stop and remove existing container if present
+      shell: |
+        docker stop mycalculator_container || true
+        docker rm -f mycalculator_container || true
+      when: container_check.stdout != ""
+
+    - name: Remove the existing Docker image
+      shell: docker rmi -f akdev6298/mycalculator:v1 || true
+      ignore_errors: yes  # Ignore errors if the image is not found
+
+    - name: Pull the latest Docker image from Docker Hub
+      shell: docker pull akdev6298/mycalculator:v1
+      register: pull_result
+      changed_when: "'Downloaded newer image' in pull_result.stdout or 'Pull complete' in pull_result.stdout"
+
+    - name: Display Pull Result
+      debug:
+        var: pull_result.stdout
+
+    - name: Run the Docker container
+      shell: docker run -d --name mycalculator_container --restart always akdev6298/mycalculator:v1
+      register: run_result
+      changed_when: "'Error' not in run_result.stdout"
+
+    - name: Display Container Run Result
+      debug:
+        var: run_result.stdout
+
