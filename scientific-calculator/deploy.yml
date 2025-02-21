@@ -1,0 +1,30 @@
+- name: Deploy scientific-calculator Container Using Docker CLI
+  hosts: localhost
+  remote_user: akshar
+  become: true
+
+  tasks:
+    - name: Stop and remove existing container if present
+      shell: |
+        docker ps -a --filter "name=sci-cal" -q | xargs -r docker stop
+        docker ps -a --filter "name=sci-cal" -q | xargs -r docker rm
+      ignore_errors: true  # To prevent the playbook from failing if the container doesn't exist
+
+    - name: Pull the latest Docker image from Docker Hub
+      shell: docker pull akdev6298/scientific-cal:v1
+      register: pull_result
+      changed_when: "'Downloaded newer image' in pull_result.stdout or 'Pull complete' in pull_result.stdout"
+
+    - name: Display Pull Result
+      debug:
+        var: pull_result.stdout
+
+    - name: Run Docker Container
+      shell: docker run -it -d --name sci-cal akdev6298/scientific-cal:v1 /bin/bash
+      register: run_result
+      changed_when: "'Error' not in run_result.stdout"
+
+    - name: Display container Run Result
+      debug: 
+        var: run_result.stdout
+
