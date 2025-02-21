@@ -1,19 +1,28 @@
 #!/bin/bash
 echo "Simple Calculator"
-echo "Enter first number:"
-read a
-echo "Enter second number:"
-read b
-echo "Enter operation (+, -, *, /):"
-read op
 
-case $op in
-  +) result=$((a + b));;
-  -) result=$((a - b));;
-  \*) result=$((a * b));;
-  /) result=$((a / b));;
-  *) echo "Invalid operation"; exit 1;;
-esac
+while true; do
+    echo "Enter first number:"
+    read a
+    echo "Enter second number:"
+    read b
+    echo "Enter operation (+, -, *, /):"
+    read op
 
-echo "Result: $result"
+    case $op in
+      +) result=$((a + b));;
+      -) result=$((a - b));;
+      \*) result=$((a * b));;
+      /) result=$((a / b));;
+      *) echo "Invalid operation"; continue;;
+    esac
 
+    echo "Result: $result"
+    echo "Do you want to perform another calculation? (yes/no)"
+    read choice
+    if [ "$choice" != "yes" ]; then
+        break
+    fi
+done
+
+echo "Exiting calculator..."
